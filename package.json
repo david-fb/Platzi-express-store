@@ -8,7 +8,10 @@
     "start": "node index.js",
     "lint": "eslint"
   },
-  "keywords": [],
+  "keywords": [
+    "express",
+    "heroku"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -24,5 +27,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "joi": "^17.4.2"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
