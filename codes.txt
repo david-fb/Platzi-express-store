@@ -1,7 +1,7 @@
 sudo docker-compose up -d postgres  *postgres is the service's name declared in docker-compose.yml
 sudo docker-compose ps *show all services running
 sudo docker-compose exec postgres bash *to use container terminal
-psql -h localhost -d my_store -U davidb *in conatiner terminal run pgadmin web db my_store user davidb
+psql -h localhost -d my_store -U davidb *in container terminal run postgres db my_store user davidb
 \d+ *in postgres terminal show database details
 \q *quit postgres terminal
 exit *exit container bash terminal
