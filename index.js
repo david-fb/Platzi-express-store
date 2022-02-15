@@ -4,7 +4,7 @@ const cors = require('cors')
 const app = express();
 const port = process.env.PORT || 3000;
 
-const { logErrors, errorHandler, boomErrorHandler} = require('./middlewares/errorHandler');
+const { logErrors, errorHandler, boomErrorHandler ,ormErrorHandler} = require('./middlewares/errorHandler');
 
 app.use(express.json());
 
@@ -28,6 +28,7 @@ routerApi(app)
 
 app.use(logErrors);
 app.use(boomErrorHandler);
+app.use(ormErrorHandler);
 app.use(errorHandler);
 
 app.listen(port, ()=>{
