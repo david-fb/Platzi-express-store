@@ -40,7 +40,7 @@ router.post('/',
     }
 });
 
-router.patch('./:id',
+router.patch('/:id',
   validatorHandler(getCategorySchema, 'params'),
   validatorHandler(updateCategorySchema, 'body'),
   async (req, res, next) => {
