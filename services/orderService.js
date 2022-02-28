@@ -32,14 +32,15 @@ class OrderService  {
   }
 
   async update(id, changes) {
-    return {
-      id,
-      changes,
-    };
+    const order = await this.findOne(id);
+    await order.update(changes);
+    return order;
   }
 
   async delete(id) {
-    return { id };
+    const order = await this.findOne(id);
+    order.destroy()
+    return { rta: true };
   }
 
 }

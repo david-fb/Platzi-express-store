@@ -21,6 +21,14 @@ const OrderSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
+  state: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    defaultValue: 'paid',
+    valdate: {
+      isIn: [['paid', 'shipped', 'delivered']]
+    }
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
