@@ -25,7 +25,7 @@ const OrderSchema = {
     allowNull: false,
     type: DataTypes.STRING,
     defaultValue: 'paid',
-    valdate: {
+    validate: {
       isIn: [['paid', 'shipped', 'delivered']]
     }
   },
