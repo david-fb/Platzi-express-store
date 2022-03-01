@@ -6,7 +6,7 @@ const { ORDER_TABLE } = require('./../models/orderModel');
 
 module.exports = {
   async up (queryInterface) {
-    await queryInterface.addColumn(ORDER_TABLE, 'state', {
+    await queryInterface.changeColumn(ORDER_TABLE, 'state', {
       allowNull: false,
       type: DataTypes.STRING,
       defaultValue: 'paid',
