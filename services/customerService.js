@@ -8,9 +8,9 @@ class CustomerService {
     const customers = await models.Customer.findAll({
       include: ['user']
     });
-    for(let customer of customers){
-      delete customer.dataValues.user.dataValues.password;
-    }
+    // for(let customer of customers){
+    //   delete customer.dataValues.user.dataValues.password;
+    // }
     return customers;
   }
 
@@ -21,7 +21,7 @@ class CustomerService {
     if(!customer) {
       throw boom.notFound('customer not found');
     }
-    delete customer.dataValues.user.dataValues.password;
+    //delete customer.dataValues.user.dataValues.password;
     return customer;
   }
 
@@ -29,6 +29,7 @@ class CustomerService {
     const newCustomer = await await models.Customer.create(data,{
       include: ['user']
     });
+    delete newCustomer.dataValues.user.dataValues.password;
     return newCustomer;
   }
 

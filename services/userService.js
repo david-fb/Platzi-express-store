@@ -18,18 +18,15 @@ class UserService {
     const users = await models.User.findAll({
       include: ['customer'],
     });
-    for(let user of users){
-      delete user.dataValues.password;
-    }
     return users;
   }
 
   async findOne(id){
-    const user = await models.User.findByPk(id);
+    const user = await models.User.scope("withPassword").findByPk(id);
     if(!user){
       throw boom.notFound('user not found');
     }
-    delete user.dataValues.password;
+    //delete user.dataValues.password; //para eliminar un atributo del objeto
     return user;
   }
 

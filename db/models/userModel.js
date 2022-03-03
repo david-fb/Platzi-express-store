@@ -52,6 +52,12 @@ class User extends Model {
           user.password = password;
         },
       },
+      defaultScope: { //para excluir un atributo
+        attributes: { exclude: ['password'] },
+      },
+      scopes: {
+        withPassword:{ attributes: {}, }
+      },
     }
   }
 }
