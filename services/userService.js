@@ -10,14 +10,18 @@ class UserService {
 
   async create(data){
     const newUser = await models.User.create(data);
+    delete newUser.dataValues.password;
     return newUser;
   }
 
   async find(){
-    const response = await models.User.findAll({
-      include: ['customer']
-    })
-    return response;
+    const users = await models.User.findAll({
+      include: ['customer'],
+    });
+    for(let user of users){
+      delete user.dataValues.password;
+    }
+    return users;
   }
 
   async findOne(id){
@@ -25,6 +29,7 @@ class UserService {
     if(!user){
       throw boom.notFound('user not found');
     }
+    delete user.dataValues.password;
     return user;
   }
 
