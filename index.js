@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const { logErrors, errorHandler, boomErrorHandler ,ormErrorHandler} = require('./middlewares/errorHandler');
-
+const { checkApiKey } = require('./middlewares/authHandler');
 app.use(express.json());
 
 const whitelist = ['http://localhost:8080', 'http://127.0.0.1:5500'];
@@ -22,6 +22,12 @@ app.use(cors(options));
 
 app.get('/', (req, res)=>{
   res.send('Hello my express server');
+});
+
+app.get('/test',
+  checkApiKey,
+  (req, res)=>{
+  res.send('success')
 });
 
 routerApi(app)
