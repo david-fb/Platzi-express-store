@@ -6,3 +6,11 @@ const hashedPassword = "$2b$10$Qq2KxXeKcqgr51mTYQV0kejuzvD/hcJMz/0YAW2jYvj1yGy.B
 bcrypt.compare(password, hashedPassword, (err, res)=>{
   console.log(res);
 });
+
+//Otra forma
+const verifyPassword = async () => {
+  const isMatch = await bcrypt.compare(password, hashedPassword);
+  console.log(isMatch);
+}
+
+verifyPassword();
