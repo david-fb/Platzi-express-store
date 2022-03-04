@@ -30,6 +30,13 @@ class UserService {
     return user;
   }
 
+  async findByEmail(email){
+    const user = await models.User.scope("withPassword").findOne({
+      where: { email }
+    });
+    return user;
+  }
+
   async update(id, changes){
     const user = await this.findOne(id);
     const response = await user.update(changes);
