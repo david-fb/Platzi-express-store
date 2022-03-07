@@ -58,7 +58,7 @@ class User extends Model {
         },
       },
       defaultScope: { //para excluir un atributo
-        attributes: { exclude: ['password'] },
+        attributes: { exclude: ['password', 'recoveryToken'] },
       },
       scopes: {
         withPassword:{ attributes: {}, }
