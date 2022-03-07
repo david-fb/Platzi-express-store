@@ -25,8 +25,19 @@ class CustomerService {
     return customer;
   }
 
+  async findByUserId(userId){
+    const customer = await models.Customer.findOne({
+      where: {
+        '$user.id$':userId,
+        //'userId': userId //o de esta forma ya que tenemos un campo userId en el modelo customer
+      },
+      include: ['user']
+    });
+    return customer;
+  }
+
   async create(data) {
-    const newCustomer = await await models.Customer.create(data,{
+    const newCustomer = await models.Customer.create(data,{
       include: ['user']
     });
     delete newCustomer.dataValues.user.dataValues.password;
