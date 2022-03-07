@@ -18,6 +18,7 @@ class AuthService {
       throw boom.unauthorized();
     }
     delete user.dataValues.password;
+    delete user.dataValues.recoveryToken;
     return user;
   }
 
@@ -31,6 +32,26 @@ class AuthService {
       user,
       token
     };
+  }
+
+  async changePassword(token, newPassword){
+    try {
+      const payload = jwt.verify(token, config.jwtSecretRecovery);
+      const user = await service.findOne(payload.sub); //findOne devuelve el user con el password y token, scope declarado en userModel
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      if(user.recoveryToken !== token){
+        throw boom.unauthorized();
+      }
+      await service.update(user.id, {
+        recoveryToken: null,
+        password: hashedPassword
+      });
+      return { message: 'password changed' };
+
+    } catch (error) {
+      throw boom.unauthorized();
+    }
   }
 
   async sendRecovery(email){
