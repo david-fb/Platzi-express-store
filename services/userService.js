@@ -11,6 +11,7 @@ class UserService {
   async create(data){
     const newUser = await models.User.create(data);
     delete newUser.dataValues.password;
+    delete newUser.dataValues.recoveryToken;
     return newUser;
   }
 
