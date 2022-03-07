@@ -33,11 +33,34 @@ class AuthService {
     };
   }
 
-  async sendMail(email){
+  async sendRecovery(email){
     const user = await service.findByEmail(email);
+
     if(!user){
       throw boom.unauthorized();
     }
+    const payload = {
+      sub: user.id,
+    }
+    const token = jwt.sign(payload, config.jwtSecretRecovery, { expiresIn: '15min'});
+
+    await service.update(user.id, {
+      recoveryToken: token
+    })
+
+    const link = `http://myfrontend.com/recovery?token=${token}`
+
+    const info = {
+      from: `David Basto 👨‍💻" ${config.nmEmail}`, // sender address
+      to: `${user.email}`, // list of receivers
+      subject: "Restablecer contraseña", // Subject line
+      html: `<b>Link para restablecer contraseña ${link}</b>`, // html body
+    }
+    const rta = await this.sendMail(info);
+    return rta;
+  }
+
+  async sendMail(mail){
 
     const transporter = nodemailer.createTransport({
       host: config.nmSMTP,
@@ -49,13 +72,7 @@ class AuthService {
       },
     });
 
-    await transporter.sendMail({
-      from: `David Basto 👨‍💻" ${config.nmEmail}`, // sender address
-      to: `${user.email}`, // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?1", // plain text body
-      html: "<b>Hello world?</b>", // html body
-    });
+    await transporter.sendMail(mail);
 
     return { message: 'mail sent'};
   }

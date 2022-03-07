@@ -10,6 +10,7 @@ const config = {
   dbPort: process.env.DB_PORT,
   dbUrl: process.env.DATABASE_URL,
   jwtSecret: process.env.JWT_SECRET,
+  jwtSecretRecovery: process.env.JWT_SECRET_RECOVERY,
   nmEmail: process.env.NM_EMAIL,
   nmPassword: process.env.NM_PASSWORD,
   nmSMTP: process.env.NM_SMTP,
