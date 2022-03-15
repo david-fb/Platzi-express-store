@@ -1,7 +1,10 @@
-const express = require('express')
+const express = require('express');
+const passport = require('passport');
 const ProductsService = require('../services/productsService');
 const validatorHandler = require('./../middlewares/validatorHandler');
-const { createProductSchema, updateProductSchema, getProductSchema, queryProductSchema } = require('./../schemas/productSchema.js')
+const { createProductSchema, updateProductSchema, getProductSchema, queryProductSchema } = require('./../schemas/productSchema.js');
+const { checkRoles } = require('../middlewares/authHandler')
+
 
 const router = express.Router()
 const service = new ProductsService();
@@ -30,6 +33,8 @@ router.get('/:id',
 });
 
 router.post('/',
+  passport.authenticate('jwt', {session:false}),
+  checkRoles('admin'),
   validatorHandler(createProductSchema, 'body'),
   async (req, res, next)=>{
     try {
@@ -42,6 +47,8 @@ router.post('/',
 });
 
 router.patch('/:id',
+  passport.authenticate('jwt', {session:false}),
+  checkRoles('admin'),
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
   async (req, res, next)=>{
@@ -56,6 +63,8 @@ router.patch('/:id',
 });
 
 router.delete('/:id',
+passport.authenticate('jwt', {session:false}),
+checkRoles('admin'),
 async (req, res, next)=>{
   try {
     const { id } = req.params;
