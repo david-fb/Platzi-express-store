@@ -12,7 +12,8 @@ router.post('/upload', (req,res)=>{
   console.log(path);
   file = req.files.file;
   const fileName = Date.now()+ "-" + file.name;
-  uploadPath = path.basename('/uploads/') + "/" + fileName;
+  let dir = path.dirname(__dirname)
+  uploadPath = dir + ('/uploads/') + "/" + fileName;
 
   file.mv(uploadPath, function(err) {
     if(err)

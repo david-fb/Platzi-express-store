@@ -6,7 +6,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const { logErrors, errorHandler, boomErrorHandler ,ormErrorHandler} = require('./middlewares/errorHandler');
-const { checkApiKey } = require('./middlewares/authHandler');
+
 app.use(express.json());
 app.use(fileUpload());
 
