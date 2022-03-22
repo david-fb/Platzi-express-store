@@ -34,7 +34,7 @@ class ProductsService {
     }
     const { limit, offset, price, price_min, price_max } = query;
     if(limit && offset){
-      options.limit = parseInt(limit);
+      if(limit>0) options.limit = parseInt(limit);
       options.offset = parseInt(offset);
     }
     if(price){
