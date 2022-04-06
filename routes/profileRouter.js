@@ -20,10 +20,17 @@ router.get('/',
   async (req, res, next) => {
     try {
       const userId = req.user.sub;
+      const userRole = req.user.role;
+      if(userRole === 'customer') {
+        const customerData = await customerService.findByUserId(userId);
+        delete customerData.dataValues.user.dataValues.password;
+        delete customerData.dataValues.user.dataValues.recoveryToken;
+        return res.status(200).json(customerData);
+      }
       const userData = await userService.findOne(userId);
       delete userData.dataValues.password;
       delete userData.dataValues.recoveryToken;
-      res.json(userData);
+      res.status(200).json(userData);
     } catch (error) {
       next(error)
     }
