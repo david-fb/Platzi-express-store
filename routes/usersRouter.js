@@ -1,8 +1,9 @@
 const express = require('express');
-
+const passport = require('passport');
 const UserService = require('./../services/userService');
 const validatorHandler = require('./../middlewares/validatorHandler');
 const { updateUserSchema, createUserSchema, getUserSchema } = require('./../schemas/userSchema');
+const { checkRoles } = require('../middlewares/authHandler')
 
 const router = express.Router();
 const service = new UserService();
@@ -43,14 +44,19 @@ router.post('/',
 );
 
 router.patch('/:id',
+  passport.authenticate('jwt', {session:false}),
   validatorHandler(getUserSchema, 'params'),
   validatorHandler(updateUserSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
+      const user = req.user;
       const body = req.body;
-      const category = await service.update(id, body);
-      res.json(category);
+      if(user.sub == id || user.role === 'admin'){
+        const category = await service.update(id, body);
+        return res.status(200).json(category);
+      }
+      res.status(401).json({message: 'Not Authorized'})
     } catch (error) {
       next(error);
     }
@@ -58,6 +64,8 @@ router.patch('/:id',
 );
 
 router.delete('/:id',
+  passport.authenticate('jwt', {session:false}),
+  checkRoles('admin'),
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
