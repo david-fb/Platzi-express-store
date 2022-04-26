@@ -3,6 +3,7 @@ const Joi= require('joi');
 const token = Joi.string();
 const newPassword = Joi.string().min(8);
 const email = Joi.string().email();
+const recoveryUri = Joi.string().uri();
 const password = Joi.string();
 
 const changePasswordSchema = Joi.object({
@@ -11,7 +12,8 @@ const changePasswordSchema = Joi.object({
 });
 
 const recoverySchema = Joi.object({
-  email: email.required()
+  email: email.required(),
+  recoveryUri: recoveryUri.required(),
 });
 
 const loginSchema = Joi.object({

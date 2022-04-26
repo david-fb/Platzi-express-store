@@ -54,7 +54,7 @@ class AuthService {
     }
   }
 
-  async sendRecovery(email){
+  async sendRecovery(email, recoveryUri){
     const user = await service.findByEmail(email);
 
     if(!user){
@@ -69,7 +69,7 @@ class AuthService {
       recoveryToken: token
     })
 
-    const link = `http://myfrontend.com/recovery?token=${token}`
+    const link = `${recoveryUri}${token}`
 
     const info = {
       from: `David Basto 👨‍💻" ${config.nmEmail}`, // sender address

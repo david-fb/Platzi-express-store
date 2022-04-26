@@ -23,8 +23,8 @@ router.post('/recovery',
   validatorHanlder(recoverySchema, 'body'),
   async (req, res, next)=>{
   try {
-    const { email } = req.body;
-    res.json(await service.sendRecovery(email));
+    const { email, recoveryUri } = req.body;
+    res.json(await service.sendRecovery(email, recoveryUri));
   } catch (error) {
     next(error);
   }
